@@ -34,11 +34,8 @@ docker-compose*.yml
 # Scripts (not needed in container)
 scripts/
 
-# Nginx (mounted separately)
-nginx/
-
-# Prerender (has its own Dockerfile)
-prerender/
+# Nginx config (mounted separately, but keep for prerender build)
+# nginx/
 
 # Tests
 test/
