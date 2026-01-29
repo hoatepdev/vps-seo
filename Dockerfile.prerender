@@ -1,0 +1,31 @@
+# Prerender Service Dockerfile
+# Uses Playwright to render React SPA for SEO
+
+FROM mcr.microsoft.com/playwright:v1.40.0-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies for Express
+COPY prerender/package*.json ./
+RUN npm ci --only=production
+
+# Copy prerender server
+COPY prerender/server.js ./
+
+# Create non-root user
+RUN useradd -m -u 1000 prerender && \
+    chown -R prerender:prender /app
+
+# Switch to non-root user
+USER prerender
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+# Start server
+CMD ["node", "server.js"]

@@ -1,0 +1,81 @@
+# Docker Compose for VPS-based SEO Prerendering
+# Run: docker compose up -d
+
+version: '3.8'
+
+services:
+  # Redis cache for prerendered HTML
+  redis:
+    image: redis:7-alpine
+    container_name: seo-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - seo-network
+
+  # Prerender service (Playwright)
+  prerender:
+    build:
+      context: .
+      dockerfile: Dockerfile.prerender
+    container_name: seo-prerender
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - REDIS_URL=redis://redis:6379
+      - SPA_URL=https://yourdomain.com  # CHANGE THIS!
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./prerender/server.js:/app/server.js:ro
+    networks:
+      - seo-network
+    # Limit resources
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: seo-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/sites-available/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-cache:/var/cache/nginx
+    depends_on:
+      - prerender
+    networks:
+      - seo-network
+
+volumes:
+  redis-data:
+    driver: local
+  nginx-cache:
+    driver: local
+
+networks:
+  seo-network:
+    driver: bridge
