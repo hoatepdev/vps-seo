@@ -1,0 +1,72 @@
+# robots.txt for yourdomain.com
+# Place in: public/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /auth/
+Disallow: /user/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /account/
+
+# Disallow search and filter URLs (to prevent duplicate content)
+Disallow: /search?
+Disallow: /filter?
+Disallow: /sort?
+
+# Crawl-delay (optional, be respectful)
+Crawl-delay: 1
+
+# Specific rules for major crawlers
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Yahoo (uses Bing bot)
+User-agent: Slurp
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+
+# Social media crawlers (for link previews)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: TwitterBot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Block aggressive bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# Note: You can also control bot access at the server level (Nginx/Cloudflare)
+# which is more efficient than robots.txt

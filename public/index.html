@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="//yourdomain.com" />
+
+    <!-- Preconnect for critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload critical fonts (adjust based on your fonts) -->
+    <link rel="preload" href="/fonts/main.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Critical CSS (optional - inline critical path styles here) -->
+    <style>
+      /* Add critical above-the-fold styles here to prevent FOUC */
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      #root {
+        min-height: 100vh;
+      }
+    </style>
+
+    <!-- Default meta tags (will be overridden by react-helmet-async) -->
+    <meta name="description" content="Your site description" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Open Graph (default) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Your Site Name" />
+    <meta property="og:title" content="Your Site Name" />
+    <meta property="og:description" content="Your site description" />
+    <meta property="og:image" content="/og-default.jpg" />
+
+    <!-- Twitter Card (default) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Your Site Name" />
+    <meta name="twitter:description" content="Your site description" />
+    <meta name="twitter:image" content="/og-default.jpg" />
+
+    <!-- Canonical (default) -->
+    <link rel="canonical" href="https://yourdomain.com/" />
+
+    <!-- Structured Data (Organization - default) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Your Site Name",
+      "url": "https://yourdomain.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourdomain.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <title>Your Site Name</title>
+  </head>
+  <body>
+    <!-- Root element for React -->
+    <div id="root"></div>
+
+    <!-- Fallback content for users without JavaScript -->
+    <noscript>
+      <div style="padding: 2rem; text-align: center;">
+        <h1>JavaScript Required</h1>
+        <p>Please enable JavaScript to use this website.</p>
+        <p><a href="/sitemap.xml">View Sitemap</a></p>
+      </div>
+    </noscript>
+
+    <!-- Main app script -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
